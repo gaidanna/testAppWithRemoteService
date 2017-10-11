@@ -26,16 +26,15 @@ namespace UserServiceTestApp
         {
             string input;
             int userId;
-            bool isNumber;
             string startMessage;
             string outputMessage;
             string warningMessage;
             string noUserMessage;
             UserServiceClient usClient;
-            ConsoleKeyInfo cki;
+            ConsoleKeyInfo consoleKey;
             StringBuilder sBuilder;
  
-            cki = new ConsoleKeyInfo();
+            consoleKey = new ConsoleKeyInfo();
             usClient = new UserServiceClient();
             sBuilder = new StringBuilder();
             startMessage = "Enter your name and press ENTER.  (ESC to cancel): ";
@@ -47,17 +46,16 @@ namespace UserServiceTestApp
 
             while (true)
             {
-                cki = Console.ReadKey();
-                if (cki.Key == ConsoleKey.Escape)
+                consoleKey = Console.ReadKey();
+                if (consoleKey.Key == ConsoleKey.Escape)
                 {
                     break;
                 }
-                else if (cki.Key == ConsoleKey.Enter)
+                else if (consoleKey.Key == ConsoleKey.Enter)
                 {
                     input = sBuilder.ToString();
                     sBuilder.Clear();
-                    isNumber = Int32.TryParse(input, out userId);
-                    if (isNumber)
+                    if (Int32.TryParse(input, out userId))
                     {
                         var user = usClient.GetUser(userId);
                         if (user == null)
@@ -77,7 +75,7 @@ namespace UserServiceTestApp
                 }
                 else
                 {
-                    sBuilder.Append(cki.KeyChar);
+                    sBuilder.Append(consoleKey.KeyChar);
                 }
             }
         }
